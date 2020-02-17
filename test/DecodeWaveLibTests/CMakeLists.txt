@@ -13,6 +13,7 @@ add_executable(${This} ${Sources})
 target_link_libraries(${This} PUBLIC
     gtest_main
     DecodeWaveLib
+    Logger
 )
 
 add_test(

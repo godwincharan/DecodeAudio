@@ -15,19 +15,20 @@ DecodeWave::~DecodeWave()
 
 bool DecodeWave::OpenFile(std::string& file_name)
 {
+    bool result = false;
     if(!file_name.empty())
     {
         drwav wav_;
         if (drwav_init_file(&wav_, file_name.c_str(), nullptr)) 
         {
-            std::cout << "Channels: " << wav_.channels << std::endl;
+            logger::Log::Get().log(std::string("Channels: ") + std::to_string(wav_.channels));
             if (2 == wav_.channels)
             {
-                return true;
+                result = true;
             }
-            
+            drwav_uninit(&wav_);
         }
     }
-    return false;
+    return result;
 }
 } // decode_wave
