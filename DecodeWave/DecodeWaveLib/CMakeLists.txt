@@ -6,11 +6,12 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON) 
 
+include_directories(${DecodeWave_SOURCE_DIR}/ThirdParty/dr_libs-master)
+
 set(Headers
-DecodeWave.hpp
+    DecodeWave.hpp
 )
 set(Sources
     DecodeWave.cpp
 )
-
 add_library(${This} STATIC ${Sources} ${Headers})
