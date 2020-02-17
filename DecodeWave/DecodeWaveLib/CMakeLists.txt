@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON) 
 
 include_directories(${DecodeWave_SOURCE_DIR}/ThirdParty/dr_libs-master)
+include_directories(${DecodeWave_SOURCE_DIR}/DecodeWave/Logger)
 
 set(Headers
     DecodeWave.hpp
