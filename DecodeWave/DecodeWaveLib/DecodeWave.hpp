@@ -1,0 +1,5 @@
+#ifndef DECODE_WAVE_HPP
+#define DECODE_WAVE_HPP
+
+#endif //DECODE_WAVE_HPP
+

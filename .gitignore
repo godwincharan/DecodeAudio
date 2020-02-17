@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+ProblemStatement/
+dr_libs-master/
+dr_libs-master.zip
+build/
+googletest/
