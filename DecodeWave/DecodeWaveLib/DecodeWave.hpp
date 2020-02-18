@@ -17,6 +17,8 @@ public:
     bool OpenFile(std::string& file_name) noexcept;
 
     void DumpAudioInfo() const noexcept;
+
+    std::string Decode() noexcept;
 private:
     void CreateReaderFor(std::string& extension);
 };

@@ -27,6 +27,13 @@ TEST(DecodeWaveLibTests, OpenFile_ProperFile){
 
     return_value = decode_wave->IsReaderCreated();
     EXPECT_EQ(true,return_value);
+}
 
+TEST(DecodeWaveLibTests, Decode_ProperFile){
+    std::shared_ptr<decode_wave::DecodeWave> decode_wave = std::make_shared<decode_wave::DecodeWave>();
+    std::string file_path("/Users/Charan/Documents/GitHub/DecodeWave/ProblemStatement/Decoding_WaveFiles/file_1.wav");
+    auto return_value = decode_wave->OpenFile(file_path);
 
+    std::string result = decode_wave->Decode();
+    EXPECT_EQ(std::string(""),result);
 }

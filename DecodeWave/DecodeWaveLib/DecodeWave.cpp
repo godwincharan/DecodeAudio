@@ -48,7 +48,15 @@ void DecodeWave::DumpAudioInfo() const noexcept
     }
 }
 
-
-
-
+std::string DecodeWave::Decode() noexcept
+{
+    std::string result{""};
+    if(audio_reader_)
+    {
+        auto total_data = audio_reader_->TotalSamples() * audio_reader_->Channels();
+        int16_t* sample_data = (int16_t*)malloc((size_t)total_data * sizeof(int16_t));
+        auto read = audio_reader_->GetSamples16(audio_reader_->TotalSamples(), sample_data);
+    }
+    return result;
+}
 } // decode_wave

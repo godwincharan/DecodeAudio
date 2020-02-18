@@ -24,17 +24,21 @@ bool WaveReader::OpenFile(const std::string& file_name)
     return is_valid_;
 }
 
-uint64_t WaveReader::GetSamples16(const int64_t& no_of_samples, uint16_t* sample_data)
+uint64_t WaveReader::GetSamples16(const int64_t& no_of_samples, int16_t* sample_data)
+{
+    if (is_valid_)
+    {
+        return drwav_read_pcm_frames_s16(&wav_, no_of_samples, sample_data);
+    }
+    return 0;
+}
+
+uint64_t WaveReader::GetSamples24(const int64_t& no_of_samples, int32_t* sample_data) 
 {
     return 0;
 }
 
-uint64_t WaveReader::GetSamples24(const int64_t& no_of_samples, uint32_t* sample_data) 
-{
-    return 0;
-}
-
-uint64_t WaveReader::GetSamples32(const int64_t& no_of_samples, uint32_t* sample_data)
+uint64_t WaveReader::GetSamples32(const int64_t& no_of_samples, int32_t* sample_data)
 {
     return 0;
 }
@@ -48,5 +52,23 @@ void WaveReader::Info() const noexcept
         logger::Log::Get().log(std::string("Total Samples: ") + std::to_string(wav_.totalPCMFrameCount));
         logger::Log::Get().log(std::string("Bit Depth: ") + std::to_string(wav_.bitsPerSample));
     }
+}
+
+uint64_t WaveReader::TotalSamples() const noexcept
+{
+    if (is_valid_)
+    {
+        return wav_.totalPCMFrameCount;
+    }
+    return 0;
+}
+
+uint16_t WaveReader::Channels() const noexcept
+{
+    if (is_valid_)
+    {
+        return wav_.channels;
+    }
+    return 0;
 }
 } // decode_wave
