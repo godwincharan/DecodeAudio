@@ -2,11 +2,14 @@
 #define DECODE_WAVE_HPP
 
 #include <iostream>
+#include "dr_wav.h"
 
 namespace decode_wave
 {
 class DecodeWave final
 {
+private:
+    drwav wav_;
 public:
     explicit DecodeWave() noexcept;
     ~DecodeWave();
