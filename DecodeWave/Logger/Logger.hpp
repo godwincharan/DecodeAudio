@@ -1,7 +1,7 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include <iostream>
+#include <string>
 
 namespace logger
 {
@@ -29,6 +29,7 @@ public:
     void log_error(const std::string& logs) const;
     void log_debug(const std::string& logs) const;
     void log(const std::string& logs) const;
+    void logcontinous(const std::string& logs) const;
 };
 } // logger
 #endif //LOGGER_HPP

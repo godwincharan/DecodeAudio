@@ -1,4 +1,5 @@
 #include "Logger.hpp"
+#include <iostream>
 
 namespace logger
 {
@@ -45,5 +46,10 @@ void Log::log_debug(const std::string& logs) const
 void Log::log(const std::string& logs) const
 {
     std::cout << logs<< std::endl;
+}
+
+void Log::logcontinous(const std::string& logs) const
+{
+    std::cout << logs;
 }
 } // logger

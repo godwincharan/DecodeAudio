@@ -1,9 +1,6 @@
-#define DR_WAV_IMPLEMENTATION
 #include "DecodeWave.hpp"
-#include "Logger.hpp"
-#include <sstream>
-#include <iomanip>
-#include <cstdint>
+#include "ReaderFactory.hpp"
+#include <string>
 
 namespace decode_wave
 {
@@ -13,15 +10,34 @@ namespace decode_wave
 
 DecodeWave::~DecodeWave()
 {
-    drwav_uninit(&wav_);
+    audio_reader_ = nullptr;
+}
+
+bool DecodeWave::CreateReaderFor(std::string& file_name)
+{
+    auto pos = file_name.find_last_of(".");
+    if(std::string::npos != pos)
+    {
+        auto extension = file_name.substr(pos);
+        audio_reader_ = ReaderFactory::Get().GetReader(extension);
+    }
+
+    return audio_reader_ != nullptr;
 }
 
 bool DecodeWave::OpenFile(std::string& file_name)
 {
-    if(!file_name.empty())
+    if(!audio_reader_)
     {
-        return drwav_init_file(&wav_, file_name.c_str(), nullptr);
+        return CreateReaderFor(file_name);
+    }
+
+    if(audio_reader_)
+    {
+        return audio_reader_->OpenFile(file_name);
     }
     return false;
 }
+
+
 } // decode_wave

@@ -11,8 +11,13 @@ include_directories(${DecodeWave_SOURCE_DIR}/DecodeWave/Logger)
 
 set(Headers
     DecodeWave.hpp
+    IReader.hpp
+    ReaderFactory.hpp
+    WaveReader.hpp
 )
 set(Sources
     DecodeWave.cpp
+    ReaderFactory.cpp
+    WaveReader.cpp
 )
 add_library(${This} STATIC ${Sources} ${Headers})
