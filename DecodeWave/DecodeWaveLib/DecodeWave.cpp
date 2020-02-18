@@ -13,23 +13,24 @@ DecodeWave::~DecodeWave()
     audio_reader_ = nullptr;
 }
 
-bool DecodeWave::CreateReaderFor(std::string& file_name)
+void DecodeWave::CreateReaderFor(std::string& extension)
 {
-    auto pos = file_name.find_last_of(".");
-    if(std::string::npos != pos)
-    {
-        auto extension = file_name.substr(pos);
-        audio_reader_ = ReaderFactory::Get().GetReader(extension);
-    }
-
+    audio_reader_ = ReaderFactory::Get().GetReader(extension);
+}
+ 
+bool DecodeWave::IsReaderCreated()
+{
     return audio_reader_ != nullptr;
 }
 
 bool DecodeWave::OpenFile(std::string& file_name)
 {
-    if(!audio_reader_)
+    audio_reader_ = nullptr;
+    auto pos = file_name.find_last_of(".");
+    if(std::string::npos != pos)
     {
-        return CreateReaderFor(file_name);
+        auto extension = file_name.substr(pos);
+        CreateReaderFor(extension);
     }
 
     if(audio_reader_)

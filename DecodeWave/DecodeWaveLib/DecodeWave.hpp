@@ -13,9 +13,11 @@ public:
     explicit DecodeWave() noexcept;
     ~DecodeWave();
 
-    bool CreateReaderFor(std::string& file_name);
+    bool IsReaderCreated();
     bool OpenFile(std::string& file_name);
+
+private:
+    void CreateReaderFor(std::string& extension);
 };
 } // decode_wave
 #endif //DECODE_WAVE_HPP
-
