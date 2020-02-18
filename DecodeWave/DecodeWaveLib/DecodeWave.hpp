@@ -13,9 +13,10 @@ public:
     explicit DecodeWave() noexcept;
     ~DecodeWave();
 
-    bool IsReaderCreated();
-    bool OpenFile(std::string& file_name);
+    bool IsReaderCreated() const noexcept;
+    bool OpenFile(std::string& file_name) noexcept;
 
+    void DumpAudioInfo() const noexcept;
 private:
     void CreateReaderFor(std::string& extension);
 };

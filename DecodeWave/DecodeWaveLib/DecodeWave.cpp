@@ -18,12 +18,12 @@ void DecodeWave::CreateReaderFor(std::string& extension)
     audio_reader_ = ReaderFactory::Get().GetReader(extension);
 }
  
-bool DecodeWave::IsReaderCreated()
+bool DecodeWave::IsReaderCreated() const noexcept
 {
     return audio_reader_ != nullptr;
 }
 
-bool DecodeWave::OpenFile(std::string& file_name)
+bool DecodeWave::OpenFile(std::string& file_name) noexcept
 {
     audio_reader_ = nullptr;
     auto pos = file_name.find_last_of(".");
@@ -39,6 +39,16 @@ bool DecodeWave::OpenFile(std::string& file_name)
     }
     return false;
 }
+
+void DecodeWave::DumpAudioInfo() const noexcept
+{
+    if(audio_reader_)
+    {
+        return audio_reader_->Info();
+    }
+}
+
+
 
 
 } // decode_wave
