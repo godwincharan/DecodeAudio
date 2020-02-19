@@ -124,6 +124,19 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
             int64_t last_sample_count = 0;
             
             bool old_sign = false;
+
+            uint16_t id_byte_count = 0;
+            uint8_t byte_count = 0;
+            uint8_t message_count = 0;
+            uint16_t checksum = 0;
+
+            auto reset_counter_func = [&]
+            {
+                logger::Log::Get().log(std::string("All ") + std::to_string(message_count) + " messages received. Reset the counters.");
+                id_byte_count = 0;
+                byte_count = 0;
+                message_count = 0;
+            };
             for(int64_t sample_index = channel ; sample_index < overall_samples; sample_index += channels)
             {
                 auto sample_value = sample_data[sample_index];
@@ -146,6 +159,34 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
                     uint16_t value = Process(bit_values);
                     if ( value != 0x00)
                     {
+                        if(message_count == MESSAGE_COUNT)
+                        {
+                            reset_counter_func();
+                        }
+                        else if( id_byte_count != ID_BYTE_COUNT )
+                        {
+                            if( value == ID_ONE_VALUE || value == ID_TWO_VALUE)
+                            {
+                                id_byte_count++;
+                            }
+                        }
+                        else 
+                        {
+                            if ( ++byte_count == BYTE_COUNT)
+                            {
+                                //drop it
+                                checksum_message += "(Checksum:" + Utility::GetHexString(value) + "| Cal Checksum:" + Utility::GetHexString(checksum&0x0ff) + ")";
+                                byte_count = 0;
+                                checksum = 0;
+                                message_count++;
+                            }
+                            else
+                            {
+                                char char_value = value;
+                                message += char_value;
+                                checksum += value;
+                            }
+                        }
                     }
                 }
                 sample_count++;
