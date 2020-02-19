@@ -24,7 +24,7 @@ bool WaveReader::OpenFile(const std::string& file_name)
     return is_valid_;
 }
 
-uint64_t WaveReader::GetSamples16(const int64_t& no_of_samples, int16_t* sample_data)
+uint64_t WaveReader::GetSamples16(const uint64_t& no_of_samples, int16_t* sample_data)
 {
     if (is_valid_)
     {
@@ -33,12 +33,12 @@ uint64_t WaveReader::GetSamples16(const int64_t& no_of_samples, int16_t* sample_
     return 0;
 }
 
-uint64_t WaveReader::GetSamples24(const int64_t& no_of_samples, int32_t* sample_data) 
+uint64_t WaveReader::GetSamples24(const uint64_t& no_of_samples, int32_t* sample_data) 
 {
     return 0;
 }
 
-uint64_t WaveReader::GetSamples32(const int64_t& no_of_samples, int32_t* sample_data)
+uint64_t WaveReader::GetSamples32(const uint64_t& no_of_samples, int32_t* sample_data)
 {
     return 0;
 }
@@ -68,6 +68,15 @@ uint16_t WaveReader::Channels() const noexcept
     if (is_valid_)
     {
         return wav_.channels;
+    }
+    return 0;
+}
+
+uint64_t WaveReader::OverallSamples() const noexcept
+{
+    if (is_valid_)
+    {
+        return wav_.totalPCMFrameCount * wav_.channels;
     }
     return 0;
 }

@@ -1,6 +1,7 @@
 #include "DecodeWave.hpp"
 #include "ReaderFactory.hpp"
 #include <string>
+#include <vector>
 
 namespace decode_wave
 {
@@ -48,14 +49,19 @@ void DecodeWave::DumpAudioInfo() const noexcept
     }
 }
 
-std::string DecodeWave::Decode() noexcept
+std::string DecodeWave::Decode(const int8_t& channel) const noexcept
 {
     std::string result{""};
     if(audio_reader_)
     {
-        auto total_data = audio_reader_->TotalSamples() * audio_reader_->Channels();
-        int16_t* sample_data = (int16_t*)malloc((size_t)total_data * sizeof(int16_t));
-        auto read = audio_reader_->GetSamples16(audio_reader_->TotalSamples(), sample_data);
+        audio_reader_->Info();
+        auto overall_samples = audio_reader_->OverallSamples();
+        int16_t* sample_data = new int16_t[overall_samples];
+        auto read = audio_reader_->GetSamples16(overall_samples, sample_data);
+
+        if (read == overall_samples)
+        {
+        }
     }
     return result;
 }

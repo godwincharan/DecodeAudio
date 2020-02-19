@@ -5,6 +5,7 @@
 
 namespace decode_wave
 {
+    constexpr uint8_t BIT_STREAM_LENGHT = 11;
 class DecodeWave final
 {
 private:
@@ -18,7 +19,7 @@ public:
 
     void DumpAudioInfo() const noexcept;
 
-    std::string Decode() noexcept;
+    std::string Decode(const int8_t& channel) const noexcept;
 private:
     void CreateReaderFor(std::string& extension);
 };

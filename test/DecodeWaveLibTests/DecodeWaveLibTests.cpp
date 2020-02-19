@@ -34,6 +34,6 @@ TEST(DecodeWaveLibTests, Decode_ProperFile){
     std::string file_path("/Users/Charan/Documents/GitHub/DecodeWave/ProblemStatement/Decoding_WaveFiles/file_1.wav");
     auto return_value = decode_wave->OpenFile(file_path);
 
-    std::string result = decode_wave->Decode();
+    std::string result = decode_wave->Decode(0);
     EXPECT_EQ(std::string(""),result);
 }
