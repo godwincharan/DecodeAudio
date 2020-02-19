@@ -1,6 +1,7 @@
 #include "DecodeWave.hpp"
 #include "ReaderFactory.hpp"
 #include "Utility.hpp"
+#include "Logger.hpp"
 #include <string>
 #include <vector>
 #include <cmath>
@@ -89,19 +90,28 @@ std::string DecodeWave::Decode(const int8_t& channel) const noexcept
     if(audio_reader_)
     {
         audio_reader_->Info();
+        
         auto overall_samples = audio_reader_->OverallSamples();
+        auto total_samples = audio_reader_->TotalSamples();
         int16_t* sample_data = new int16_t[overall_samples];
-        auto read = audio_reader_->GetSamples16(overall_samples, sample_data);
+        auto read = audio_reader_->GetSamples16(total_samples, sample_data);
 
-        if (read == overall_samples)
+        if (read != total_samples)
         {
-            auto fill_message_func = [&sample_data](const int8_t& channel, std::string& message)
-            {
-            };
-            std::string message{""};
-            fill_message_func(channel,message);
-            result += message;
+            result+= std::string("Not able to read all data.") + 
+                std::string("To Read:") + std::to_string(total_samples) + std::string(" ") + 
+                std::string("Read:") + std::to_string(read);
+            delete[] sample_data;
+            return result;
         }
+        auto fill_message_func = [&](const int8_t& channel, std::string& message , std::string& checksum_message)
+        {
+        };
+        std::string message{""};
+        std::string checksum_message{""};
+        fill_message_func(channel,message, checksum_message);
+        result += message;
+        result += std::string("\\n") + checksum_message;
         delete[] sample_data;
     }
     return result;
