@@ -36,6 +36,8 @@ private:
 
     inline bool IsZeroBitReceived(const int64_t& value)const;
     inline bool IsOneBitReceived(const int64_t& value)const;
+
+    int16_t* GetData() const;
 };
 } // decode_wave
 #endif //DECODE_WAVE_HPP

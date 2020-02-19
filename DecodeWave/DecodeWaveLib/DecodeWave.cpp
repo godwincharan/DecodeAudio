@@ -84,26 +84,39 @@ void DecodeWave::DumpAudioInfo() const noexcept
     }
 }
 
-std::string DecodeWave::Decode(const int8_t& channel) const noexcept
+int16_t* DecodeWave::GetData() const
 {
-    std::string result{""};
     if(audio_reader_)
     {
-        audio_reader_->Info();
-        
         auto overall_samples = audio_reader_->OverallSamples();
         auto total_samples = audio_reader_->TotalSamples();
         int16_t* sample_data = new int16_t[overall_samples];
         auto read = audio_reader_->GetSamples16(total_samples, sample_data);
-
         if (read != total_samples)
         {
-            result+= std::string("Not able to read all data.") + 
+            logger::Log::Get().log(std::string("Not able to read all data.") + 
                 std::string("To Read:") + std::to_string(total_samples) + std::string(" ") + 
-                std::string("Read:") + std::to_string(read);
+                std::string("Read:") + std::to_string(read));
             delete[] sample_data;
-            return result;
+            return nullptr;;
         }
+        else
+        {
+            return sample_data;
+        }
+    }
+    return nullptr;
+}
+
+std::string DecodeWave::Decode(const int8_t& channel) const noexcept
+{
+    std::string result{""};
+     if(audio_reader_)
+    {
+        int16_t* sample_data = GetData();
+        auto channels = audio_reader_->Channels();
+        auto overall_samples = audio_reader_->OverallSamples();
+        
         auto fill_message_func = [&](const int8_t& channel, std::string& message , std::string& checksum_message)
         {
         };
