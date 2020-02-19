@@ -1,5 +1,6 @@
 #include "DecodeWave.hpp"
 #include "ReaderFactory.hpp"
+#include "Utility.hpp"
 #include <string>
 #include <vector>
 #include <cmath>
@@ -29,6 +30,16 @@ void DecodeWave::CalculateLimit()noexcept
         upper_audio_samples_for_bit_0_ = audio_samples_for_bit_0 + ERROR_THRESHOULD;
         lower_audio_samples_for_bit_0_ = audio_samples_for_bit_0 - ERROR_THRESHOULD;
     }
+}
+
+bool DecodeWave::IsZeroBitReceived(const int64_t& value)const
+{
+    return Utility::IsWithin(lower_audio_samples_for_bit_0_, upper_audio_samples_for_bit_0_, value);
+}
+
+bool DecodeWave::IsOneBitReceived(const int64_t& value)const
+{
+    return Utility::IsWithin(lower_audio_samples_for_bit_1_, upper_audio_samples_for_bit_1_, value);
 }
 
 void DecodeWave::CreateReaderFor(std::string& extension)

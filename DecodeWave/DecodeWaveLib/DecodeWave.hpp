@@ -32,6 +32,8 @@ private:
     void CreateReaderFor(std::string& extension);
     void CalculateLimit()noexcept;
 
+    inline bool IsZeroBitReceived(const int64_t& value)const;
+    inline bool IsOneBitReceived(const int64_t& value)const;
 };
 } // decode_wave
 #endif //DECODE_WAVE_HPP
