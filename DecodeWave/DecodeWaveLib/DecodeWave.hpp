@@ -30,6 +30,8 @@ public:
     std::string Decode(const int8_t& channel) const noexcept;
 private:
     void CreateReaderFor(std::string& extension);
+    uint16_t Process(std::vector<bool>& bit_values)const;
+
     void CalculateLimit()noexcept;
 
     inline bool IsZeroBitReceived(const int64_t& value)const;

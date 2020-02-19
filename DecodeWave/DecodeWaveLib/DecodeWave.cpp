@@ -106,4 +106,33 @@ std::string DecodeWave::Decode(const int8_t& channel) const noexcept
     }
     return result;
 }
+
+uint16_t DecodeWave::Process(std::vector<bool>& bit_values) const
+{
+    uint16_t result = 0x00;
+    if (bit_values.size() == BIT_STREAM_LENGHT)
+    {
+        auto false_lambda = [](const bool& value)
+        {
+            return !value;
+        };
+
+        auto true_lambda = [](const bool& value)
+        {
+            return value;
+        };
+
+        if( false_lambda(bit_values[0]) && 
+            true_lambda(bit_values[BIT_STREAM_LENGHT-1]) &&
+            true_lambda(bit_values[BIT_STREAM_LENGHT-2]))
+        {
+            for( int i = 1; i < BIT_STREAM_LENGHT-2; i++)
+            {
+                result |= bit_values[i] << (i-1);
+            }
+        }
+        bit_values.clear();
+    }
+    return result;
+}
 } // decode_wave
