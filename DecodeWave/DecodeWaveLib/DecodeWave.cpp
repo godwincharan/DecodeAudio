@@ -119,6 +119,37 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
         
         auto fill_message_func = [&](const int8_t& channel, std::string& message , std::string& checksum_message)
         {
+            std::vector<bool> bit_values;
+            int64_t sample_count = 0;
+            int64_t last_sample_count = 0;
+            
+            bool old_sign = false;
+            for(int64_t sample_index = channel ; sample_index < overall_samples; sample_index += channels)
+            {
+                auto sample_value = sample_data[sample_index];
+                bool new_sign = (sample_value & 0x8000) == 0x8000;
+                if (old_sign != new_sign)
+                {
+                    old_sign = new_sign;
+
+                    auto samples_between_sign_change = sample_count - last_sample_count;
+                    last_sample_count = sample_count;
+                    if( IsZeroBitReceived(samples_between_sign_change)) 
+                    {
+                        bit_values.push_back(false);
+                    }
+                    else if( IsOneBitReceived(samples_between_sign_change))
+                    {
+                        bit_values.push_back(true);
+                    }
+
+                    uint16_t value = Process(bit_values);
+                    if ( value != 0x00)
+                    {
+                    }
+                }
+                sample_count++;
+            }
         };
         std::string message{""};
         std::string checksum_message{""};
