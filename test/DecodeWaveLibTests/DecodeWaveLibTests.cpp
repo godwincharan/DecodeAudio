@@ -35,4 +35,7 @@ TEST(DecodeWaveLibTests, Decode_ProperFile){
     auto return_value = decode_wave->OpenFile(file_path);
 
     std::string result = decode_wave->DecodeToMessage(0);
+    EXPECT_EQ(std::string(""),result);
+
+
 }

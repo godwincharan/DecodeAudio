@@ -117,7 +117,7 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
         auto channels = audio_reader_->Channels();
         auto overall_samples = audio_reader_->OverallSamples();
         
-        auto fill_message_func = [&](const int8_t& channel, std::string& message , std::string& checksum_message)
+        auto fill_message_func = [&](const int8_t& channel, std::string& message)
         {
             std::vector<bool> bit_values;
             int64_t sample_count = 0;
@@ -174,8 +174,10 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
                         {
                             if ( ++byte_count == BYTE_COUNT)
                             {
-                                //drop it
-                                checksum_message += "(Checksum:" + Utility::GetHexString(value) + "| Cal Checksum:" + Utility::GetHexString(checksum&0x0ff) + ")";
+                                if ( value != (checksum & 0x0ff) )
+                                {
+                                    logger::Log::Get().log("Checksum Mismatch. (Checksum:" + Utility::GetHexString(value) + "!= Cal Checksum:" + Utility::GetHexString(checksum) + ")");
+                                }
                                 byte_count = 0;
                                 checksum = 0;
                                 message_count++;
@@ -193,14 +195,13 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
             }
         };
         std::string message{""};
-        std::string checksum_message{""};
-        fill_message_func(channel,message, checksum_message);
+        fill_message_func(channel, message);
         result += message;
-        result += std::string("\\n") + checksum_message;
         delete[] sample_data;
     }
     return result;
 }
+
 
 uint16_t DecodeWave::Process(std::vector<bool>& bit_values) const
 {
