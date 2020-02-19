@@ -2,6 +2,7 @@
 #include "ReaderFactory.hpp"
 #include <string>
 #include <vector>
+#include <cmath>
 
 namespace decode_wave
 {
@@ -12,6 +13,22 @@ namespace decode_wave
 DecodeWave::~DecodeWave()
 {
     audio_reader_ = nullptr;
+}
+
+void DecodeWave::CalculateLimit()noexcept
+{
+    if(audio_reader_)
+    {
+        const auto sample_rate = audio_reader_->SampleRate();
+        auto audio_samples_for_bit_1 = std::floor(sample_rate * MICRO_SEC_FOR_BIT_ONE / ONE_MICRO_SEC * 1.0F);
+        auto audio_samples_for_bit_0 = std::floor(sample_rate * MICRO_SEC_FOR_BIT_ZERO / ONE_MICRO_SEC * 1.0F);
+
+        upper_audio_samples_for_bit_1_ = audio_samples_for_bit_1 + ERROR_THRESHOULD;
+        lower_audio_samples_for_bit_1_ = audio_samples_for_bit_1 - ERROR_THRESHOULD;
+        
+        upper_audio_samples_for_bit_0_ = audio_samples_for_bit_0 + ERROR_THRESHOULD;
+        lower_audio_samples_for_bit_0_ = audio_samples_for_bit_0 - ERROR_THRESHOULD;
+    }
 }
 
 void DecodeWave::CreateReaderFor(std::string& extension)
@@ -26,6 +43,8 @@ bool DecodeWave::IsReaderCreated() const noexcept
 
 bool DecodeWave::OpenFile(std::string& file_name) noexcept
 {
+    bool return_value = false;
+    
     audio_reader_ = nullptr;
     auto pos = file_name.find_last_of(".");
     if(std::string::npos != pos)
@@ -36,9 +55,13 @@ bool DecodeWave::OpenFile(std::string& file_name) noexcept
 
     if(audio_reader_)
     {
-        return audio_reader_->OpenFile(file_name);
+        return_value = audio_reader_->OpenFile(file_name);
+        if(return_value)
+        {
+            CalculateLimit();
+        }
     }
-    return false;
+    return return_value;
 }
 
 void DecodeWave::DumpAudioInfo() const noexcept

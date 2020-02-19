@@ -72,6 +72,15 @@ uint16_t WaveReader::Channels() const noexcept
     return 0;
 }
 
+uint64_t WaveReader::SampleRate() const noexcept
+{
+    if (is_valid_)
+    {
+        return wav_.sampleRate;
+    }
+    return 0;
+}
+
 uint64_t WaveReader::OverallSamples() const noexcept
 {
     if (is_valid_)

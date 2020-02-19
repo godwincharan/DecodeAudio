@@ -21,6 +21,7 @@ public:
     virtual void Info() const noexcept = 0;
     virtual uint64_t TotalSamples() const noexcept = 0;
     virtual uint16_t Channels() const noexcept = 0;
+    virtual uint64_t SampleRate() const noexcept =0;
     virtual uint64_t OverallSamples() const noexcept = 0;
 };
 } // decode_wave

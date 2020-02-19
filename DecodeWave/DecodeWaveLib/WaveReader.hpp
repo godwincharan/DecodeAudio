@@ -25,6 +25,7 @@ public:
     void Info() const noexcept override;
     uint64_t TotalSamples() const noexcept override;
     uint16_t Channels() const noexcept override;
+    uint64_t SampleRate() const noexcept override;
     uint64_t OverallSamples() const noexcept override;
 };
 } // decode_wave
