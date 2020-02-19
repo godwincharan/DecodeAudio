@@ -202,6 +202,50 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
     return result;
 }
 
+std::string DecodeWave::DecodeToBitStream(const int8_t& channel) const noexcept
+{
+    std::string result{""};
+    if(audio_reader_)
+    {
+        int16_t* sample_data = GetData();
+        auto channels = audio_reader_->Channels();
+        auto overall_samples = audio_reader_->OverallSamples();
+        
+        auto fill_bit_stream_func = [&](const int8_t& channel, std::string& bit_message)
+        {
+            int64_t sample_count = 0;
+            int64_t last_sample_count = 0;
+            bool old_sign = false;
+            for(int64_t sample_index = channel ; sample_index < overall_samples; sample_index += channels)
+            {
+                auto sample_value = sample_data[sample_index];
+                bool new_sign = (sample_value & 0x8000) == 0x8000;
+                //logger::Log::Get().log( std::to_string(sample_count) + std::string(" : ")+ Utility::GetHexString(sample_value) + std::string(": new_sign->") + std::to_string(new_sign) );
+                if (old_sign != new_sign)
+                {
+                    old_sign = new_sign;
+                    auto samples_between_sign_change = sample_count - last_sample_count;
+                    last_sample_count = sample_count;
+                    //logger::Log::Get().log(std::string("Sample Changing to :") +  std::to_string(sample_value) + std::string("<---->Samples Between Sign Change : ")+std::to_string(samples_between_sign_change));
+                    if( IsZeroBitReceived(samples_between_sign_change)) 
+                    {
+                        bit_message += std::string("0");
+                    }
+                    else if( IsOneBitReceived(samples_between_sign_change))
+                    {
+                        bit_message += std::string("1");
+                    }
+                }
+                sample_count++;
+            }
+        };
+        std::string bit_message{""};
+        fill_bit_stream_func(channel, bit_message);
+        result += bit_message;
+        delete[] sample_data;
+    }
+    return result;
+}
 
 uint16_t DecodeWave::Process(std::vector<bool>& bit_values) const
 {
