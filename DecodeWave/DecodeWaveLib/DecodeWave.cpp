@@ -108,7 +108,7 @@ int16_t* DecodeWave::GetData() const
     return nullptr;
 }
 
-std::string DecodeWave::Decode(const int8_t& channel) const noexcept
+std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
 {
     std::string result{""};
      if(audio_reader_)

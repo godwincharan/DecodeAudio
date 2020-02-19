@@ -27,7 +27,7 @@ public:
 
     void DumpAudioInfo() const noexcept;
 
-    std::string Decode(const int8_t& channel) const noexcept;
+    std::string DecodeToMessage(const int8_t& channel) const noexcept;
 private:
     void CreateReaderFor(std::string& extension);
     uint16_t Process(std::vector<bool>& bit_values)const;
