@@ -170,24 +170,21 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
                                 id_byte_count++;
                             }
                         }
-                        else 
+                        else if ( ++byte_count == BYTE_COUNT)
                         {
-                            if ( ++byte_count == BYTE_COUNT)
+                            if ( value != (checksum & 0x0ff) )
                             {
-                                if ( value != (checksum & 0x0ff) )
-                                {
-                                    logger::Log::Get().log("Checksum Mismatch. (Checksum:" + Utility::GetHexString(value) + "!= Cal Checksum:" + Utility::GetHexString(checksum) + ")");
-                                }
-                                byte_count = 0;
-                                checksum = 0;
-                                message_count++;
+                                logger::Log::Get().log("Checksum Mismatch. (Checksum:" + Utility::GetHexString(value) + "!= Cal Checksum:" + Utility::GetHexString(checksum) + ")");
                             }
-                            else
-                            {
-                                char char_value = value;
-                                message += char_value;
-                                checksum += value;
-                            }
+                            byte_count = 0;
+                            checksum = 0;
+                            message_count++;
+                        }
+                        else
+                        {
+                            char char_value = value;
+                            message += char_value;
+                            checksum += value;
                         }
                     }
                 }
