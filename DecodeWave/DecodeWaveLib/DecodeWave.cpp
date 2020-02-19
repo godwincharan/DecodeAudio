@@ -61,7 +61,14 @@ std::string DecodeWave::Decode(const int8_t& channel) const noexcept
 
         if (read == overall_samples)
         {
+            auto fill_message_func = [&sample_data](const int8_t& channel, std::string& message)
+            {
+            };
+            std::string message{""};
+            fill_message_func(channel,message);
+            result += message;
         }
+        delete[] sample_data;
     }
     return result;
 }
