@@ -2,6 +2,7 @@
 #include "WaveReader.hpp"
 #include <Logger.hpp>
 #include <string>
+#include "Utility.hpp"
 
 namespace decode_wave
 {
@@ -63,13 +64,13 @@ uint64_t WaveReader::TotalSamples() const noexcept
     return 0;
 }
 
-uint16_t WaveReader::Channels() const noexcept
+int16_t WaveReader::Channels() const noexcept
 {
     if (is_valid_)
     {
         return wav_.channels;
     }
-    return 0;
+    return -1;
 }
 
 uint64_t WaveReader::SampleRate() const noexcept
@@ -89,4 +90,14 @@ uint64_t WaveReader::OverallSamples() const noexcept
     }
     return 0;
 }
+
+bool WaveReader::HasChannel(const uint16_t& channel) const noexcept
+{
+    if (is_valid_)
+    {
+        return Utility::IsWithin(static_cast<uint16_t>(0),static_cast<uint16_t>(wav_.channels-1),channel);
+    }
+    return false;
+}
+
 } // decode_wave

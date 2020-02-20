@@ -115,7 +115,7 @@ int16_t* DecodeWave::GetData() const
 std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
 {
     std::string result{""};
-    if(audio_reader_)
+    if(audio_reader_ && audio_reader_->HasChannel(channel))
     {
         int16_t* sample_data = GetData();
         auto channels = audio_reader_->Channels();
@@ -225,7 +225,7 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
 std::string DecodeWave::DecodeToBitStream(const int8_t& channel) const noexcept
 {
     std::string result{""};
-    if(audio_reader_)
+    if(audio_reader_ && audio_reader_->HasChannel(channel))
     {
         int16_t* sample_data = GetData();
         auto channels = audio_reader_->Channels();
