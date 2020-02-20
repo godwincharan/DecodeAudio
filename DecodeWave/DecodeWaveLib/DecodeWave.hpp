@@ -14,7 +14,7 @@ namespace decode_wave
     constexpr uint64_t MICRO_SEC_FOR_BIT_ZERO = 640;
     constexpr uint64_t MICRO_SEC_FOR_BIT_ONE = 320;
     constexpr uint64_t ONE_MICRO_SEC = 1000000;
-    constexpr uint8_t ERROR_THRESHOULD = 3;
+    constexpr uint8_t ERROR_THRESHOULD = 6;
 class DecodeWave final
 {
 private:
