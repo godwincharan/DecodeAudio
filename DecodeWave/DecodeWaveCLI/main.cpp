@@ -2,6 +2,17 @@
 #include <string>
 #include <iostream>
 
+static void show_usage(std::string applicaton_name)
+{
+    std::cerr << "Usage: " <<std::endl
+                << "    " << applicaton_name << " -a audio_file.wav <optional>-c channel_number" << std::endl
+                << "Options:" << std::endl
+                << "    -h,--help       Show this help message" << std::endl
+                << "    -a,--audio      <path to .wav audio file>" << std::endl
+                << "    -c,--channel    channel to decode"
+                << std::endl;
+}
+
 int main(int argc, char* argv[])
 {
     using namespace decode_wave;
