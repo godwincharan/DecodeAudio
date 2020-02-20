@@ -110,7 +110,7 @@ int16_t* DecodeWave::GetData() const
 std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
 {
     std::string result{""};
-     if(audio_reader_)
+    if(audio_reader_)
     {
         int16_t* sample_data = GetData();
         auto channels = audio_reader_->Channels();
@@ -123,6 +123,7 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
             int64_t last_sample_count = 0;
             
             bool old_sign = false;
+            int64_t leader_count = 0;
 
             uint16_t id_byte_count = 0;
             uint8_t byte_count = 0;
@@ -158,32 +159,39 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
                     uint16_t value = Process(bit_values);
                     if ( value != 0x00)
                     {
-                        if(message_count == MESSAGE_COUNT)
+                        if ( IS_LEADER_RECEIVED(leader_count))
                         {
-                            reset_counter_func();
-                        }
-                        else if( id_byte_count != ID_BYTE_COUNT )
-                        {
-                            if( value == ID_ONE_VALUE || value == ID_TWO_VALUE)
+                            if(message_count == MESSAGE_COUNT)
                             {
-                                id_byte_count++;
+                                reset_counter_func();
+                            }
+                            else if( id_byte_count != ID_BYTE_COUNT )
+                            {
+                                if( value == ID_ONE_VALUE || value == ID_TWO_VALUE)
+                                {
+                                    id_byte_count++;
+                                }
+                            }
+                            else if ( ++byte_count == BYTE_COUNT)
+                            {
+                                if ( value != (checksum & 0x0ff) )
+                                {
+                                    logger::Log::Get().log("Checksum Mismatch. (Checksum:" + Utility::GetHexString(value) + "!= Cal Checksum:" + Utility::GetHexString(checksum) + ")");
+                                }
+                                byte_count = 0;
+                                checksum = 0;
+                                message_count++;
+                            }
+                            else
+                            {
+                                char char_value = value;
+                                message += char_value;
+                                checksum += value;
                             }
                         }
-                        else if ( ++byte_count == BYTE_COUNT)
+                        else if (value == 0xFF)
                         {
-                            if ( value != (checksum & 0x0ff) )
-                            {
-                                logger::Log::Get().log("Checksum Mismatch. (Checksum:" + Utility::GetHexString(value) + "!= Cal Checksum:" + Utility::GetHexString(checksum) + ")");
-                            }
-                            byte_count = 0;
-                            checksum = 0;
-                            message_count++;
-                        }
-                        else
-                        {
-                            char char_value = value;
-                            message += char_value;
-                            checksum += value;
+                            leader_count++;
                         }
                     }
                 }
@@ -259,7 +267,6 @@ uint16_t DecodeWave::Process(std::deque<bool>& bit_values) const
         else
         {
             bit_values.pop_front();
-
         }
     }
     return result;

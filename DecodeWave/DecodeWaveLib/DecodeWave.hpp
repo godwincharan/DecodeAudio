@@ -16,6 +16,20 @@ namespace decode_wave
     constexpr uint64_t MICRO_SEC_FOR_BIT_ONE = 320;
     constexpr uint64_t ONE_MICRO_SEC = 1000000;
     constexpr uint8_t ERROR_THRESHOULD = 6;
+    constexpr uint64_t LEADER_MICRO_SEC = 2500000;
+    constexpr uint64_t LEADER_MICRO_SEC_ERROR_CORRECTION = 200;
+
+    constexpr uint64_t COUNT_LEADER_MICRO_SEC( const uint64_t& leader_count)
+    {
+        return leader_count * (BIT_STREAM_LENGHT-1) * MICRO_SEC_FOR_BIT_ONE +
+            leader_count * MICRO_SEC_FOR_BIT_ZERO;
+    }
+
+    constexpr bool IS_LEADER_RECEIVED( const uint64_t& leader_count)
+    {
+        return (COUNT_LEADER_MICRO_SEC(leader_count) + LEADER_MICRO_SEC_ERROR_CORRECTION) > LEADER_MICRO_SEC;
+    }
+    
 class DecodeWave final
 {
 private:
