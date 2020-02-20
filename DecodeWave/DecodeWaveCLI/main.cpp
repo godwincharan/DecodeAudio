@@ -69,8 +69,11 @@ int main(int argc, char* argv[])
     auto return_value = decode_wave->OpenFile(file_path);
     if ( return_value)
     {
+        std::cout << "==========================Audio file infromation.==========================" <<std::endl;
+        decode_wave->DumpAudioInfo();
         std::string result = decode_wave->DecodeToMessage(0);
         std::cout << result <<std::endl;
+
     }
     return 0;
 }
