@@ -3,7 +3,6 @@
 #include "Utility.hpp"
 #include "Logger.hpp"
 #include <string>
-#include <vector>
 #include <cmath>
 
 namespace decode_wave
@@ -119,7 +118,7 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
         
         auto fill_message_func = [&](const int8_t& channel, std::string& message)
         {
-            std::vector<bool> bit_values;
+            std::deque<bool> bit_values;
             int64_t sample_count = 0;
             int64_t last_sample_count = 0;
             
@@ -244,31 +243,24 @@ std::string DecodeWave::DecodeToBitStream(const int8_t& channel) const noexcept
     return result;
 }
 
-uint16_t DecodeWave::Process(std::vector<bool>& bit_values) const
+uint16_t DecodeWave::Process(std::deque<bool>& bit_values) const
 {
     uint16_t result = 0x00;
     if (bit_values.size() == BIT_STREAM_LENGHT)
     {
-        auto false_lambda = [](const bool& value)
-        {
-            return !value;
-        };
-
-        auto true_lambda = [](const bool& value)
-        {
-            return value;
-        };
-
-        if( false_lambda(bit_values[0]) && 
-            true_lambda(bit_values[BIT_STREAM_LENGHT-1]) &&
-            true_lambda(bit_values[BIT_STREAM_LENGHT-2]))
+        if( !bit_values[0] && bit_values[BIT_STREAM_LENGHT-1] && bit_values[BIT_STREAM_LENGHT-2])
         {
             for( int i = 1; i < BIT_STREAM_LENGHT-2; i++)
             {
                 result |= bit_values[i] << (i-1);
             }
+            bit_values.clear();
         }
-        bit_values.clear();
+        else
+        {
+            bit_values.pop_front();
+
+        }
     }
     return result;
 }

@@ -2,6 +2,7 @@
 #define DECODE_WAVE_HPP
 
 #include "IReader.hpp"
+#include <deque>
 
 namespace decode_wave
 {
@@ -36,7 +37,7 @@ public:
     std::string DecodeToBitStream(const int8_t& channel) const noexcept;
 private:
     void CreateReaderFor(std::string& extension);
-    uint16_t Process(std::vector<bool>& bit_values)const;
+    uint16_t Process(std::deque<bool>& bit_values)const;
 
     void CalculateLimit()noexcept;
 
