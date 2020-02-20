@@ -6,7 +6,7 @@
 static void show_usage(std::string applicaton_name)
 {
     std::cerr << "Usage: " <<std::endl
-                << "    " << applicaton_name << " -a audio_file.wav <optional>-c channel_number" << std::endl
+                << "    " << applicaton_name << " -a audio_file.wav -c channel_number<optional>" << std::endl
                 << "Options:" << std::endl
                 << "    -h,--help       Show this help message" << std::endl
                 << "    -a,--audio      <path to .wav audio file>" << std::endl
