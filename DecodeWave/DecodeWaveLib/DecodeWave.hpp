@@ -43,6 +43,8 @@ public:
     explicit DecodeWave() noexcept;
     ~DecodeWave();
 
+    IReader::Ptr GetReader() const;
+
     bool IsReaderCreated() const noexcept;
     bool OpenFile(std::string& file_name) noexcept;
 

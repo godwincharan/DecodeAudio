@@ -16,6 +16,11 @@ DecodeWave::~DecodeWave()
     audio_reader_ = nullptr;
 }
 
+IReader::Ptr DecodeWave::GetReader() const
+{
+    return audio_reader_;
+}
+
 void DecodeWave::CalculateLimit()noexcept
 {
     if(audio_reader_)
@@ -97,7 +102,7 @@ int16_t* DecodeWave::GetData() const
                 std::string("To Read:") + std::to_string(total_samples) + std::string(" ") + 
                 std::string("Read:") + std::to_string(read));
             delete[] sample_data;
-            return nullptr;;
+            return nullptr;
         }
         else
         {
