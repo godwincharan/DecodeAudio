@@ -71,8 +71,20 @@ int main(int argc, char* argv[])
     {
         std::cout << "==========================Audio file infromation.==========================" <<std::endl;
         decode_wave->DumpAudioInfo();
-        std::string result = decode_wave->DecodeToMessage(0);
-        std::cout << result <<std::endl;
+        if ( is_channel_provided)
+        {
+            if (decode_wave->GetReader()->HasChannel(channel))
+            {
+                std::cout << "==================================Message==================================" <<std::endl;
+                std::string result = decode_wave->DecodeToMessage(channel);
+                std::cout << result <<std::endl;
+            }
+            else
+            {
+                std::cerr << "==================================Error==================================" <<std::endl;
+                std::cerr << "Channel " << channel << " is not present in the audio file. Possible range is [" << 0 << " - " << decode_wave->GetReader()->Channels() - 1 << "]" << std::endl;
+            }
+        }
     }
     else
     {
