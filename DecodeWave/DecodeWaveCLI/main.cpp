@@ -73,7 +73,10 @@ int main(int argc, char* argv[])
         decode_wave->DumpAudioInfo();
         std::string result = decode_wave->DecodeToMessage(0);
         std::cout << result <<std::endl;
-
+    }
+    else
+    {
+        std::cerr << "Cannot open audio file. Please check the file and its contents." <<std::endl;
     }
     return 0;
 }
