@@ -85,6 +85,16 @@ int main(int argc, char* argv[])
                 std::cerr << "Channel " << channel << " is not present in the audio file. Possible range is [" << 0 << " - " << decode_wave->GetReader()->Channels() - 1 << "]" << std::endl;
             }
         }
+        else
+        {
+            for(uint16_t channel; channel  < decode_wave->GetReader()->Channels();channel++)
+            {
+                std::cout << "===========================Message in channel "<< channel << "============================" <<std::endl;
+                std::string result = decode_wave->DecodeToMessage(channel);
+                std::cout << result <<std::endl;
+                decode_wave->GetReader()->SeekZero();
+            }
+        }
     }
     else
     {
