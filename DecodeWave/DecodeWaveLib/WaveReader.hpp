@@ -29,6 +29,8 @@ public:
     uint64_t OverallSamples() const noexcept override;
 
     bool HasChannel(const uint16_t& channel) const noexcept override;
+    bool SeekZero() noexcept override;
+
 };
 } // decode_wave
 #endif //WAVE_READER_HPP

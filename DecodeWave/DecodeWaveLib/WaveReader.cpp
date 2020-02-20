@@ -100,4 +100,13 @@ bool WaveReader::HasChannel(const uint16_t& channel) const noexcept
     return false;
 }
 
+bool WaveReader::SeekZero() noexcept
+{
+    if (is_valid_)
+    {
+        return drwav_seek_to_pcm_frame(&wav_, 0);
+    }
+    return true;
+}
+
 } // decode_wave

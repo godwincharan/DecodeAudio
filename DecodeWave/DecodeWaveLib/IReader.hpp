@@ -25,6 +25,7 @@ public:
     virtual uint64_t OverallSamples() const noexcept = 0;
 
     virtual bool HasChannel(const uint16_t& channel) const noexcept = 0;
+    virtual bool SeekZero() noexcept = 0;
 };
 } // decode_wave
 #endif //I_READER_HPP
