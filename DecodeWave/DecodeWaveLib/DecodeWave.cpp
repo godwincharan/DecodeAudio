@@ -129,13 +129,14 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
             uint8_t byte_count = 0;
             uint8_t message_count = 0;
             uint16_t checksum = 0;
-
+            bool is_all_received = false;
             auto reset_counter_func = [&]
             {
-                logger::Log::Get().log(std::string("All ") + std::to_string(message_count) + " messages received. Reset the counters.");
+                logger::Log::Get().log_info(std::string("All ") + std::to_string(message_count) + " messages received. Reset the counters.");
                 id_byte_count = 0;
                 byte_count = 0;
                 message_count = 0;
+                is_all_received= false;
             };
             for(int64_t sample_index = channel ; sample_index < overall_samples; sample_index += channels)
             {
@@ -156,18 +157,28 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
                         bit_values.push_back(true);
                     }
 
-                    uint16_t value = Process(bit_values);
-                    if ( value != 0x00)
+                    if (bit_values.size() == BIT_STREAM_LENGHT)
                     {
+                        uint16_t value = Process(bit_values);
                         if ( IS_LEADER_RECEIVED(leader_count))
                         {
                             if(message_count == MESSAGE_COUNT)
                             {
-                                reset_counter_func();
+                                is_all_received = true;
+                            }
+                            else if (is_all_received)
+                            {
+                                if (value == END_ID_VALUE){
+                                    reset_counter_func();
+                                }
+                                else
+                                {
+                                    logger::Log::Get().log_error(std::string("End ID is not received."));
+                                }
                             }
                             else if( id_byte_count != ID_BYTE_COUNT )
                             {
-                                if( value == ID_ONE_VALUE || value == ID_TWO_VALUE)
+                                if( value == START_ID_ONE_VALUE || value == START_ID_TWO_VALUE)
                                 {
                                     id_byte_count++;
                                 }
@@ -176,7 +187,7 @@ std::string DecodeWave::DecodeToMessage(const int8_t& channel) const noexcept
                             {
                                 if ( value != (checksum & 0x0ff) )
                                 {
-                                    logger::Log::Get().log("Checksum Mismatch. (Checksum:" + Utility::GetHexString(value) + "!= Cal Checksum:" + Utility::GetHexString(checksum) + ")");
+                                    logger::Log::Get().log_error("Checksum Mismatch. (Checksum:" + Utility::GetHexString(value) + "!= Cal Checksum:" + Utility::GetHexString(checksum) + ")");
                                 }
                                 byte_count = 0;
                                 checksum = 0;

@@ -7,8 +7,9 @@
 namespace decode_wave
 {
     constexpr uint8_t BIT_STREAM_LENGHT = 11;
-    constexpr uint8_t ID_ONE_VALUE = 0x42;
-    constexpr uint8_t ID_TWO_VALUE = 0x03;
+    constexpr uint8_t START_ID_ONE_VALUE = 0x42;
+    constexpr uint8_t START_ID_TWO_VALUE = 0x03;
+    constexpr uint8_t END_ID_VALUE = 0x00;
     constexpr uint8_t ID_BYTE_COUNT = 0x02;
     constexpr uint8_t MESSAGE_COUNT = 64;
     constexpr uint8_t BYTE_COUNT = 31;

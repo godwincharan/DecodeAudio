@@ -29,13 +29,11 @@ void Log::log_warn(const std::string& logs)const
 void Log::log_info(const std::string& logs) const
 {
     std::cout << logs<< std::endl;
-
 }
 
 void Log::log_error(const std::string& logs) const
 {
     std::cout << logs<< std::endl;
-
 }
 
 void Log::log_debug(const std::string& logs) const
