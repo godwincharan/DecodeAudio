@@ -16,9 +16,7 @@ public:
 
     bool OpenFile(const std::string& file_name) override;
 
-    uint64_t GetSamples16(const uint64_t& no_of_samples, int16_t* sample_data) override;
-    uint64_t GetSamples24(const uint64_t& no_of_samples, int32_t* sample_data) override;
-    uint64_t GetSamples32(const uint64_t& no_of_samples, int32_t* sample_data) override;
+    uint64_t GetSamples(const uint64_t& no_of_samples, int16_t* sample_data) override;
     
     void Info() const noexcept override;
     uint64_t TotalSamples() const noexcept override;

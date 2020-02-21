@@ -23,17 +23,7 @@ bool OggReader::OpenFile(const std::string& file_name)
     return is_valid_;
 }
 
-uint64_t OggReader::GetSamples16(const uint64_t& no_of_samples, int16_t* sample_data)
-{
-    return 0;
-}
-
-uint64_t OggReader::GetSamples24(const uint64_t& no_of_samples, int32_t* sample_data) 
-{
-    return 0;
-}
-
-uint64_t OggReader::GetSamples32(const uint64_t& no_of_samples, int32_t* sample_data)
+uint64_t OggReader::GetSamples(const uint64_t& no_of_samples, int16_t* sample_data)
 {
     return 0;
 }

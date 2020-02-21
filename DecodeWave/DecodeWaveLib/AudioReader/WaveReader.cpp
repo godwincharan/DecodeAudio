@@ -25,22 +25,12 @@ bool WaveReader::OpenFile(const std::string& file_name)
     return is_valid_;
 }
 
-uint64_t WaveReader::GetSamples16(const uint64_t& no_of_samples, int16_t* sample_data)
+uint64_t WaveReader::GetSamples(const uint64_t& no_of_samples, int16_t* sample_data)
 {
     if (is_valid_)
     {
         return drwav_read_pcm_frames_s16(&wav_, no_of_samples, sample_data);
     }
-    return 0;
-}
-
-uint64_t WaveReader::GetSamples24(const uint64_t& no_of_samples, int32_t* sample_data) 
-{
-    return 0;
-}
-
-uint64_t WaveReader::GetSamples32(const uint64_t& no_of_samples, int32_t* sample_data)
-{
     return 0;
 }
 

@@ -23,17 +23,7 @@ bool FlacReader::OpenFile(const std::string& file_name)
     return is_valid_;
 }
 
-uint64_t FlacReader::GetSamples16(const uint64_t& no_of_samples, int16_t* sample_data)
-{
-    return 0;
-}
-
-uint64_t FlacReader::GetSamples24(const uint64_t& no_of_samples, int32_t* sample_data) 
-{
-    return 0;
-}
-
-uint64_t FlacReader::GetSamples32(const uint64_t& no_of_samples, int32_t* sample_data)
+uint64_t FlacReader::GetSamples(const uint64_t& no_of_samples, int16_t* sample_data)
 {
     return 0;
 }

@@ -96,7 +96,7 @@ int16_t* DecodeWave::GetData() const
         auto overall_samples = audio_reader_->OverallSamples();
         auto total_samples = audio_reader_->TotalSamples();
         int16_t* sample_data = new int16_t[overall_samples];
-        auto read = audio_reader_->GetSamples16(total_samples, sample_data);
+        auto read = audio_reader_->GetSamples(total_samples, sample_data);
         if (read != total_samples)
         {
             logger::Log::Get().log(std::string("Not able to read all data.") + 
