@@ -1,7 +1,7 @@
 #ifndef DECODE_WAVE_HPP
 #define DECODE_WAVE_HPP
 
-#include "IReader.hpp"
+#include "AudioReader/IReader.hpp"
 #include <deque>
 
 namespace decode_wave

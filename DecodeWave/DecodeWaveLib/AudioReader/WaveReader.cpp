@@ -2,7 +2,7 @@
 #include "WaveReader.hpp"
 #include <Logger.hpp>
 #include <string>
-#include "Utility.hpp"
+#include "../Utility.hpp"
 
 namespace decode_wave
 {
