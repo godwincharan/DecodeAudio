@@ -16,7 +16,7 @@ namespace decode_wave
     constexpr uint64_t MICRO_SEC_FOR_BIT_ZERO = 640;
     constexpr uint64_t MICRO_SEC_FOR_BIT_ONE = 320;
     constexpr uint64_t ONE_MICRO_SEC = 1000000;
-    constexpr uint8_t ERROR_THRESHOULD = 6;
+    constexpr uint16_t SAMPLE_ERROR_CORRECTION = 6;
     constexpr uint64_t LEADER_MICRO_SEC = 2500000;
     constexpr uint64_t LEADER_MICRO_SEC_ERROR_CORRECTION = 200;
 
@@ -39,8 +39,10 @@ private:
     int64_t lower_audio_samples_for_bit_1_{0}; //Ideal Value 13
     int64_t upper_audio_samples_for_bit_0_{0}; //Ideal Value 33
     int64_t lower_audio_samples_for_bit_0_{0}; //Ideal Value 27
+
+    uint16_t error_correction_{SAMPLE_ERROR_CORRECTION};
 public:
-    explicit DecodeWave() noexcept;
+    explicit DecodeWave(const uint16_t error_correction = SAMPLE_ERROR_CORRECTION ) noexcept;
     ~DecodeWave();
 
     IReader::Ptr GetReader() const;

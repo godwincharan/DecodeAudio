@@ -10,7 +10,8 @@ static void show_usage(std::string applicaton_name)
                 << "Options:" << std::endl
                 << "    -h,--help       Show this help message" << std::endl
                 << "    -a,--audio      <path to .wav audio file>" << std::endl
-                << "    -c,--channel    channel to decode"
+                << "    -c,--channel    channel to decode" << std::endl
+                << "    -t,--threshold  sample correction thrshold"
                 << std::endl;
 }
 
@@ -23,7 +24,9 @@ int main(int argc, char* argv[])
 
     std::string file_path{};
     uint16_t channel{0};
+    uint16_t threshold{0};
     bool is_channel_provided = false;
+    bool is_threshold_provided = false;
     for (int i = 1; i < argc; ++i)
     {
         std::string arg = argv[i];
@@ -57,6 +60,19 @@ int main(int argc, char* argv[])
                 return 1;
             }  
         }
+        else if ((arg == "-t") || (arg == "--threshold"))
+        {
+            if (i + 1 < argc)
+            { 
+                std::istringstream(argv[++i]) >> threshold;
+                is_threshold_provided = true;
+            }
+            else
+            { 
+                std::cerr << "-t,--threshold option requires one argument." << std::endl;
+                return 1;
+            }  
+        }
         else
         {
             show_usage(argv[0]);
@@ -65,7 +81,17 @@ int main(int argc, char* argv[])
     }
 
     using namespace decode_wave;
-    std::shared_ptr<DecodeWave> decode_wave = std::make_shared<DecodeWave>();
+    std::shared_ptr<DecodeWave> decode_wave{nullptr};
+    if (is_threshold_provided)
+    {
+        decode_wave = std::make_shared<DecodeWave>(threshold);
+    }
+    else
+    {
+        decode_wave = std::make_shared<DecodeWave>();
+
+    }
+    
     auto return_value = decode_wave->OpenFile(file_path);
     if ( return_value)
     {
