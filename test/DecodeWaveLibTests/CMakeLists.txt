@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 
 set(This DecodeWaveLibTests)
 
-include_directories(${DecodeWave_SOURCE_DIR}/ThirdParty/dr_libs-master)
+include_directories(${DecodeWave_SOURCE_DIR}/ThirdParty/dr_libs)
 include_directories(${DecodeWave_SOURCE_DIR}/DecodeWave/DecodeWaveLib)
 
 set(Sources
