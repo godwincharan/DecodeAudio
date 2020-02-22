@@ -44,6 +44,10 @@ private:
 public:
     explicit DecodeWave(const uint16_t error_correction = SAMPLE_ERROR_CORRECTION ) noexcept;
     ~DecodeWave();
+    DecodeWave(const DecodeWave& decode_wave) noexcept = delete;
+    DecodeWave& operator=(const DecodeWave& other) = delete;
+    DecodeWave(DecodeWave&& decode_wave) noexcept;
+    DecodeWave& operator=(DecodeWave&& other);
 
     IReader::Ptr GetReader() const;
 

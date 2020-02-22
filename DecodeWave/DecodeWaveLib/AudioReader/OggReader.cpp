@@ -4,14 +4,6 @@
 
 namespace decode_wave
 {
-OggReader::OggReader() noexcept
-{
-}
-
-OggReader::~OggReader()
-{
-}
-
 bool OggReader::OpenFile(const std::string& file_name)
 {
     is_valid_ = false;

@@ -17,6 +17,26 @@ DecodeWave::~DecodeWave()
     audio_reader_ = nullptr;
 }
 
+DecodeWave::DecodeWave(DecodeWave&& other) noexcept:
+audio_reader_{std::move(other.audio_reader_)},
+upper_audio_samples_for_bit_1_{std::move(other.upper_audio_samples_for_bit_1_)},
+lower_audio_samples_for_bit_1_{std::move(other.lower_audio_samples_for_bit_1_)},
+upper_audio_samples_for_bit_0_{std::move(other.upper_audio_samples_for_bit_0_)},
+lower_audio_samples_for_bit_0_{std::move(other.lower_audio_samples_for_bit_0_)},
+error_correction_{std::move(other.error_correction_)}
+{
+}
+
+DecodeWave& DecodeWave::operator=(DecodeWave&& other)
+{
+    audio_reader_ = std::move(other.audio_reader_);
+    upper_audio_samples_for_bit_1_ = other.upper_audio_samples_for_bit_1_;
+    lower_audio_samples_for_bit_1_ = other.lower_audio_samples_for_bit_1_;
+    upper_audio_samples_for_bit_0_ = other.upper_audio_samples_for_bit_0_;
+    lower_audio_samples_for_bit_0_ = other.lower_audio_samples_for_bit_0_;;
+    error_correction_ = other.error_correction_;
+}
+
 IReader::Ptr DecodeWave::GetReader() const
 {
     return audio_reader_;
