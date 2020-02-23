@@ -12,8 +12,11 @@ include_directories(${DecodeAudio_SOURCE_DIR}/DecodeAudio/Logger)
 set(Headers
     DecodeAudio.hpp
 )
+set(Sources
+    DecodeAudio.cpp
+)
 
 add_subdirectory(AudioReader)
 add_subdirectory(Decoder)
 
-add_library(${This} STATIC ${Headers})
+add_library(${This} STATIC ${Sources} ${Headers})
