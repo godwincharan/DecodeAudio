@@ -4,14 +4,17 @@
 
 namespace decode_audio
 {
-bool Decoder::IsZeroBitReceived(const int64_t& value)const
+Decoder::BitReceived Decoder::WhichBitReceived(const int64_t& value)const
 {
-    return Utility::IsWithin(lower_audio_samples_for_bit_0_, upper_audio_samples_for_bit_0_, value);
-}
-
-bool Decoder::IsOneBitReceived(const int64_t& value)const
-{
-    return Utility::IsWithin(lower_audio_samples_for_bit_1_, upper_audio_samples_for_bit_1_, value);
+    if ( Utility::IsWithin(lower_audio_samples_for_bit_0_, upper_audio_samples_for_bit_0_, value))
+    {
+        return Decoder::BitReceived::BIT_ZERO;
+    }
+    else if ( Utility::IsWithin(lower_audio_samples_for_bit_1_, upper_audio_samples_for_bit_1_, value))
+    {
+        return Decoder::BitReceived::BIT_ONE;
+    }
+    return Decoder::BitReceived::BIT_ERROR;
 }
 
 void Decoder::CalculateLimit(const uint64_t& sample_rate)noexcept

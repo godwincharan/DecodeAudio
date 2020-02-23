@@ -25,11 +25,12 @@ std::string BitStreamDecoder::Decode(const int16_t* sample_data, const int16_t& 
                 auto samples_between_sign_change = sample_count - last_sample_count;
                 last_sample_count = sample_count;
                 //logger::Log::Get().log(std::string("Sample Changing to :") +  std::to_string(sample_value) + std::string("<---->Samples Between Sign Change : ")+std::to_string(samples_between_sign_change));
-                if( IsZeroBitReceived(samples_between_sign_change)) 
+                auto bit_received = WhichBitReceived(samples_between_sign_change);
+                if( BitReceived::BIT_ZERO == bit_received ) 
                 {
                     bit_message += std::string("0");
                 }
-                else if( IsOneBitReceived(samples_between_sign_change))
+                else if( BitReceived::BIT_ONE == bit_received)
                 {
                     bit_message += std::string("1");
                 }

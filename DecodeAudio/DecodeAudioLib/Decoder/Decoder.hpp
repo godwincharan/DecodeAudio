@@ -27,13 +27,19 @@ public:
     Decoder(Decoder&& decoder) noexcept = delete;
     Decoder& operator=(Decoder&& other) = delete;
 
-    bool IsZeroBitReceived(const int64_t& value)const;
-    bool IsOneBitReceived(const int64_t& value)const;
-
+    
     virtual void CalculateLimit(const uint64_t& sample_rate)noexcept;
 
     void SetErrorCorrection(const uint16_t& error_correction) noexcept;
     virtual std::string Decode(const int16_t* sample_data, const int16_t& channels, const int64_t& overall_samples, const int8_t& channel) const noexcept = 0;
+protected:
+    enum class BitReceived
+    {
+        BIT_ZERO = 0x00,
+        BIT_ONE,
+        BIT_ERROR
+    };
+    BitReceived WhichBitReceived(const int64_t& value)const;
 };
 } // decode_audio
 #endif //DECODER_HPP
