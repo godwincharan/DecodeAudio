@@ -16,5 +16,6 @@ set(Sources
     DecodeWave.cpp
 )
 add_subdirectory(AudioReader)
+add_subdirectory(Decoder)
 
 add_library(${This} STATIC ${Sources} ${Headers})

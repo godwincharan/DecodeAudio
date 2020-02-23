@@ -1,17 +1,20 @@
 #include <gtest/gtest.h>
 #include <DecodeWave.hpp>
+#include <Decoder/StringDecoder.hpp>
+#include <Decoder/BitStreamDecoder.hpp>
 #include <iostream>
 #include <fstream>
 
+using namespace decode_wave;
 TEST(DecodeWaveLibTests, OpenFile_Empty){
-    std::shared_ptr<decode_wave::DecodeWave> decode_wave = std::make_shared<decode_wave::DecodeWave>();
+    std::shared_ptr<DecodeWave<StringDecoder>> decode_wave = std::make_shared<DecodeWave<StringDecoder>>();
     std::string file_path("");
     auto return_value = decode_wave->OpenFile(file_path);
     EXPECT_EQ(false,return_value);
 }
 
 TEST(DecodeWaveLibTests, OpenFile_DummyFile){
-    std::shared_ptr<decode_wave::DecodeWave> decode_wave = std::make_shared<decode_wave::DecodeWave>();
+    std::shared_ptr<DecodeWave<StringDecoder>> decode_wave = std::make_shared<DecodeWave<StringDecoder>>();
     std::string file_path("myFile.wav");
     auto return_value = decode_wave->OpenFile(file_path);
     EXPECT_EQ(false,return_value);
@@ -21,7 +24,7 @@ TEST(DecodeWaveLibTests, OpenFile_DummyFile){
 }
 
 TEST(DecodeWaveLibTests, OpenFile_ProperFile){
-    std::shared_ptr<decode_wave::DecodeWave> decode_wave = std::make_shared<decode_wave::DecodeWave>();
+    std::shared_ptr<DecodeWave<StringDecoder>> decode_wave = std::make_shared<DecodeWave<StringDecoder>>();
     std::string file_path("file_1.wav");
     auto return_value = decode_wave->OpenFile(file_path);
     EXPECT_EQ(true,return_value);
@@ -39,10 +42,10 @@ TEST(DecodeWaveLibTests, Decode_ProperFile1){
     std::stringstream buffer;
     buffer << message_file.rdbuf();
 
-    std::shared_ptr<decode_wave::DecodeWave> decode_wave = std::make_shared<decode_wave::DecodeWave>();
+    std::shared_ptr<DecodeWave<StringDecoder>> decode_wave = std::make_shared<DecodeWave<StringDecoder>>();
     auto return_value = decode_wave->OpenFile(wav_file_path);
 
-    std::string result = decode_wave->DecodeToMessage(0);
+    std::string result = decode_wave->Decode(0);
 
     EXPECT_EQ(buffer.str(),result);
 }
@@ -56,10 +59,11 @@ TEST(DecodeWaveLibTests, Decode_ProperFile2){
     std::stringstream buffer;
     buffer << message_file.rdbuf();
 
-    std::shared_ptr<decode_wave::DecodeWave> decode_wave = std::make_shared<decode_wave::DecodeWave>();
+    std::shared_ptr<DecodeWave<StringDecoder>> decode_wave = std::make_shared<DecodeWave<StringDecoder>>();
     auto return_value = decode_wave->OpenFile(wav_file_path);
+    EXPECT_EQ(true,return_value);
 
-    std::string result = decode_wave->DecodeToMessage(0);
+    std::string result = decode_wave->Decode(0);
 
     EXPECT_EQ(buffer.str(),result);
 }
@@ -73,10 +77,11 @@ TEST(DecodeWaveLibTests, Decode_ProperFile3){
     std::stringstream buffer;
     buffer << message_file.rdbuf();
 
-    std::shared_ptr<decode_wave::DecodeWave> decode_wave = std::make_shared<decode_wave::DecodeWave>();
+    std::shared_ptr<DecodeWave<StringDecoder>> decode_wave = std::make_shared<DecodeWave<StringDecoder>>();
     auto return_value = decode_wave->OpenFile(wav_file_path);
+    EXPECT_EQ(true,return_value);
 
-    std::string result = decode_wave->DecodeToMessage(0);
+    std::string result = decode_wave->Decode(0);
 
     EXPECT_EQ(buffer.str(),result);
 }
@@ -90,9 +95,10 @@ TEST(DecodeWaveLibTests, Decode_ProperFile_BitStream1){
     std::stringstream buffer;
     buffer << bit_stream_file.rdbuf();
 
-    std::shared_ptr<decode_wave::DecodeWave> decode_wave = std::make_shared<decode_wave::DecodeWave>();
+    std::shared_ptr<DecodeWave<BitStreamDecoder>> decode_wave = std::make_shared<DecodeWave<BitStreamDecoder>>();
     auto return_value = decode_wave->OpenFile(wav_file_path);
-    std::string result = decode_wave->DecodeToBitStream(0);
+    EXPECT_EQ(true,return_value);
+    std::string result = decode_wave->Decode(0);
 
     EXPECT_EQ(buffer.str(),result);
 }
@@ -106,9 +112,9 @@ TEST(DecodeWaveLibTests, Decode_ProperFile_BitStream2){
     std::stringstream buffer;
     buffer << bit_stream_file.rdbuf();
 
-    std::shared_ptr<decode_wave::DecodeWave> decode_wave = std::make_shared<decode_wave::DecodeWave>();
+    std::shared_ptr<DecodeWave<BitStreamDecoder>> decode_wave = std::make_shared<DecodeWave<BitStreamDecoder>>();
     auto return_value = decode_wave->OpenFile(wav_file_path);
-    std::string result = decode_wave->DecodeToBitStream(0);
+    std::string result = decode_wave->Decode(0);
 
     EXPECT_EQ(buffer.str(),result);
 }
@@ -122,9 +128,10 @@ TEST(DecodeWaveLibTests, Decode_ProperFile_BitStream3){
     std::stringstream buffer;
     buffer << bit_stream_file.rdbuf();
 
-    std::shared_ptr<decode_wave::DecodeWave> decode_wave = std::make_shared<decode_wave::DecodeWave>();
+    std::shared_ptr<DecodeWave<BitStreamDecoder>> decode_wave = std::make_shared<DecodeWave<BitStreamDecoder>>();
     auto return_value = decode_wave->OpenFile(wav_file_path);
-    std::string result = decode_wave->DecodeToBitStream(0);
+    EXPECT_EQ(true,return_value);
+    std::string result = decode_wave->Decode(0);
 
     EXPECT_EQ(buffer.str(),result);
 }

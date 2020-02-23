@@ -4,6 +4,7 @@ set(This DecodeWaveLibTests)
 
 include_directories(${DecodeWave_SOURCE_DIR}/ThirdParty/dr_libs)
 include_directories(${DecodeWave_SOURCE_DIR}/DecodeWave/DecodeWaveLib)
+include_directories(${DecodeWave_SOURCE_DIR}/DecodeWave/Logger)
 
 set(Sources
     DecodeWaveLibTests.cpp

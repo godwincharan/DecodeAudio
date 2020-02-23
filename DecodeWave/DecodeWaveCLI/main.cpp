@@ -1,4 +1,5 @@
 #include <DecodeWave.hpp>
+#include <Decoder/StringDecoder.hpp>
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -81,17 +82,11 @@ int main(int argc, char* argv[])
     }
 
     using namespace decode_wave;
-    std::shared_ptr<DecodeWave> decode_wave{nullptr};
-    if (is_threshold_provided)
+    std::shared_ptr<DecodeWave<StringDecoder>> decode_wave{std::make_shared<DecodeWave<StringDecoder>>()};
+    if ( is_threshold_provided)
     {
-        decode_wave = std::make_shared<DecodeWave>(threshold);
+        decode_wave->SetErrorCorrection(threshold);
     }
-    else
-    {
-        decode_wave = std::make_shared<DecodeWave>();
-
-    }
-    
     auto return_value = decode_wave->OpenFile(file_path);
     if ( return_value)
     {
@@ -102,7 +97,7 @@ int main(int argc, char* argv[])
             if (decode_wave->GetReader()->HasChannel(channel))
             {
                 std::cout << "==================================Message==================================" <<std::endl;
-                std::string result = decode_wave->DecodeToMessage(channel);
+                std::string result = decode_wave->Decode(channel);
                 std::cout << result <<std::endl;
             }
             else
@@ -116,7 +111,7 @@ int main(int argc, char* argv[])
             for(uint16_t channel; channel  < decode_wave->GetReader()->Channels();channel++)
             {
                 std::cout << "===========================Message in channel "<< channel << "============================" <<std::endl;
-                std::string result = decode_wave->DecodeToMessage(channel);
+                std::string result = decode_wave->Decode(channel);
                 std::cout << result <<std::endl;
                 decode_wave->GetReader()->SeekZero();
             }
