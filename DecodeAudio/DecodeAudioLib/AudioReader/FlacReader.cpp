@@ -2,7 +2,7 @@
 #include <Logger.hpp>
 #include <string>
 
-namespace decode_wave
+namespace decode_audio
 {
  FlacReader::FlacReader() noexcept
  {
@@ -69,4 +69,4 @@ bool FlacReader::SeekZero() noexcept
     return true;
 }
 
-} // decode_wave
+} // decode_audio

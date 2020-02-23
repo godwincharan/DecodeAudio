@@ -2,7 +2,7 @@
 #include <Logger.hpp>
 #include <string>
 
-namespace decode_wave
+namespace decode_audio
 {
 bool OggReader::OpenFile(const std::string& file_name)
 {
@@ -61,4 +61,4 @@ bool OggReader::SeekZero() noexcept
     return true;
 }
 
-} // decode_wave
+} // decode_audio

@@ -4,7 +4,7 @@
 #include "FlacReader.hpp"
 #include <string>
 
-namespace decode_wave
+namespace decode_audio
 {
 ReaderFactory::ReaderFactory() noexcept{
 }
@@ -36,4 +36,4 @@ IReader::Ptr ReaderFactory::GetReader(const std::string& extension)
     
     return nullptr;
 }
-} // decode_wave
+} // decode_audio

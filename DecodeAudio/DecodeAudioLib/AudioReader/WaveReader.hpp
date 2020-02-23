@@ -1,18 +1,20 @@
-#ifndef FLAC_READER_HPP
-#define FLAC_READER_HPP
+#ifndef WAVE_READER_HPP
+#define WAVE_READER_HPP
 
 #include "IReader.hpp"
+#include "dr_wav.h"
 
-namespace decode_wave
+namespace decode_audio
 {
-class FlacReader final: public IReader
+class WaveReader final: public IReader
 {
 private:
+    drwav wav_;
     bool is_valid_{false};
 public:
-    using Ptr = std::shared_ptr<FlacReader>;
-    explicit FlacReader() noexcept;
-    ~FlacReader();
+    using Ptr = std::shared_ptr<WaveReader>;
+    explicit WaveReader() noexcept;
+    ~WaveReader();
 
     bool OpenFile(const std::string& file_name) override final;
 
@@ -28,6 +30,6 @@ public:
     bool SeekZero() noexcept override final;
 
 };
-} // decode_wave
-#endif //FLAC_READER_HPP
+} // decode_audio
+#endif //WAVE_READER_HPP
 

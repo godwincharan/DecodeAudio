@@ -3,7 +3,7 @@
 
 #include <memory>
 
-namespace decode_wave
+namespace decode_audio
 {
 class IReader
 {
@@ -25,6 +25,6 @@ public:
     virtual bool HasChannel(const uint16_t& channel) const noexcept = 0;
     virtual bool SeekZero() noexcept = 0;
 };
-} // decode_wave
+} // decode_audio
 #endif //I_READER_HPP
 

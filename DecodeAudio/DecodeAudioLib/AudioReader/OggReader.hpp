@@ -3,7 +3,7 @@
 
 #include "IReader.hpp"
 
-namespace decode_wave
+namespace decode_audio
 {
 class OggReader final: public IReader
 {
@@ -30,6 +30,6 @@ public:
     bool SeekZero() noexcept override final;
 
 };
-} // decode_wave
+} // decode_audio
 #endif //OGG_READER_HPP
 

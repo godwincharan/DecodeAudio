@@ -1,4 +1,4 @@
-# DecodeWave
+# DecodeAudio
 
 Install cmake
 ```sh
@@ -17,13 +17,13 @@ $ cmake --build .
 ```
 Running the Command line interface
 ```sh
-$ cd DecodeWave/DecodeWaveCLI/
-$ ./DecodeWave --audio file_1.wav
+$ cd DecodeAudio/DecodeAudioCLI/
+$ ./DecodeAudio --audio file_1.wav
 ```
 or
 ```sh
-$ cd DecodeWave/DecodeWaveCLI/
-$ ./DecodeWave --audio file_1.wav --channel 0
+$ cd DecodeAudio/DecodeAudioCLI/
+$ ./DecodeAudio --audio file_1.wav --channel 0
 ```
 
 Running the google test (inside the build folder)
@@ -32,6 +32,6 @@ $ ctest
 ```
 Running the specific google test (inside the build folder) 
 ```sh
-$ cd test/DecodeWaveLibTests
-$ ./DecodeWaveLibTests
+$ cd test/DecodeAudioLibTests
+$ ./DecodeAudioLibTests
 ```

@@ -1,25 +1,25 @@
-#ifndef DECODE_WAVE_HPP
-#define DECODE_WAVE_HPP
+#ifndef DECODE_AUDIO_HPP
+#define DECODE_AUDIO_HPP
 
 #include "AudioReader/ReaderFactory.hpp"
 #include <string>
 #include <Logger.hpp>
 
-namespace decode_wave
+namespace decode_audio
 {
 template<class T>
-class DecodeWave final
+class DecodeAudio final
 {
 private:
     IReader::Ptr audio_reader_{nullptr};
     std::unique_ptr<T> decoder_{nullptr};
 public:
-    explicit DecodeWave() noexcept;
-    ~DecodeWave();
-    DecodeWave(const DecodeWave& decode_wave) noexcept = delete;
-    DecodeWave& operator=(const DecodeWave& other) = delete;
-    DecodeWave(DecodeWave&& decode_wave) noexcept;
-    DecodeWave& operator=(DecodeWave&& other);
+    explicit DecodeAudio() noexcept;
+    ~DecodeAudio();
+    DecodeAudio(const DecodeAudio& decode_audio) noexcept = delete;
+    DecodeAudio& operator=(const DecodeAudio& other) = delete;
+    DecodeAudio(DecodeAudio&& decode_audio) noexcept;
+    DecodeAudio& operator=(DecodeAudio&& other);
 
     IReader::Ptr GetReader() const;
 
@@ -40,27 +40,27 @@ private:
 };
 
 template<class T>
-DecodeWave<T>::DecodeWave() noexcept
+DecodeAudio<T>::DecodeAudio() noexcept
 {
     decoder_ = std::make_unique<T>();
 }
 
 template<class T>
-DecodeWave<T>::~DecodeWave()
+DecodeAudio<T>::~DecodeAudio()
 {
     audio_reader_ = nullptr;
     decoder_ = nullptr;
 }
 
 template<class T>
-DecodeWave<T>::DecodeWave(DecodeWave&& other) noexcept:
+DecodeAudio<T>::DecodeAudio(DecodeAudio&& other) noexcept:
 audio_reader_{std::move(other.audio_reader_)},
 decoder_{std::move(other.decoder_)}
 {
 }
 
 template<class T>
-DecodeWave<T>& DecodeWave<T>::operator=(DecodeWave&& other)
+DecodeAudio<T>& DecodeAudio<T>::operator=(DecodeAudio&& other)
 {
     audio_reader_ = std::move(other.audio_reader_);
     decoder_ = std::move(other.decoder_);
@@ -68,25 +68,25 @@ DecodeWave<T>& DecodeWave<T>::operator=(DecodeWave&& other)
 }
 
 template<class T>
-IReader::Ptr DecodeWave<T>::GetReader() const
+IReader::Ptr DecodeAudio<T>::GetReader() const
 {
     return audio_reader_;
 }
 
 template<class T>
-void DecodeWave<T>::CreateReaderFor(std::string& extension)
+void DecodeAudio<T>::CreateReaderFor(std::string& extension)
 {
     audio_reader_ = ReaderFactory::Get().GetReader(extension);
 }
  
 template<class T>
-bool DecodeWave<T>::IsReaderCreated() const noexcept
+bool DecodeAudio<T>::IsReaderCreated() const noexcept
 {
     return audio_reader_ != nullptr;
 }
 
 template<class T>
-bool DecodeWave<T>::OpenFile(std::string& file_name) noexcept
+bool DecodeAudio<T>::OpenFile(std::string& file_name) noexcept
 {
     bool return_value = false;
     
@@ -110,7 +110,7 @@ bool DecodeWave<T>::OpenFile(std::string& file_name) noexcept
 }
 
 template<class T>
-void DecodeWave<T>::DumpAudioInfo() const noexcept
+void DecodeAudio<T>::DumpAudioInfo() const noexcept
 {
     if(audio_reader_)
     {
@@ -119,7 +119,7 @@ void DecodeWave<T>::DumpAudioInfo() const noexcept
 }
 
 template<class T>
-int16_t* DecodeWave<T>::GetData() const
+int16_t* DecodeAudio<T>::GetData() const
 {
     if(audio_reader_)
     {
@@ -144,7 +144,7 @@ int16_t* DecodeWave<T>::GetData() const
 }
 
 template<class T>
-void DecodeWave<T>::SetErrorCorrection(const uint16_t& error_correction) noexcept
+void DecodeAudio<T>::SetErrorCorrection(const uint16_t& error_correction) noexcept
 {
     if (decoder_)
     {
@@ -154,7 +154,7 @@ void DecodeWave<T>::SetErrorCorrection(const uint16_t& error_correction) noexcep
 }
 
 template<class T>
-std::string DecodeWave<T>::Decode(const int8_t& channel) const noexcept
+std::string DecodeAudio<T>::Decode(const int8_t& channel) const noexcept
 {
     std::string result{""};
     if( decoder_ && audio_reader_ && audio_reader_->HasChannel(channel))
@@ -168,5 +168,5 @@ std::string DecodeWave<T>::Decode(const int8_t& channel) const noexcept
     }
     return result;
 }
-} // decode_wave
-#endif //DECODE_WAVE_HPP
+} // decode_audio
+#endif //DECODE_AUDIO_HPP

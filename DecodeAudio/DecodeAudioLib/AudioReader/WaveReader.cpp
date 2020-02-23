@@ -4,7 +4,7 @@
 #include <string>
 #include "../Utility.hpp"
 
-namespace decode_wave
+namespace decode_audio
 {
  WaveReader::WaveReader() noexcept
  {
@@ -99,4 +99,4 @@ bool WaveReader::SeekZero() noexcept
     return true;
 }
 
-} // decode_wave
+} // decode_audio

@@ -3,7 +3,7 @@
 
 #include <Logger.hpp>
 
-namespace decode_wave
+namespace decode_audio
 {
 std::string StringDecoder::Decode(const int16_t* sample_data, const int16_t& channels, const int64_t& overall_samples, const int8_t& channel) const noexcept
 {
@@ -133,4 +133,4 @@ uint16_t StringDecoder::Process(std::deque<bool>& bit_values) const
     }
     return result;
 }
-} // decode_wave
+} // decode_audio

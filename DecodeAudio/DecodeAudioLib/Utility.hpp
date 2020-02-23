@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace decode_wave
+namespace decode_audio
 {
 class Utility
 {
@@ -24,6 +24,6 @@ public:
         return (0 >=  (value - max) * (value - min)); 
     }
 };
-} // decode_wave
+} // decode_audio
 #endif //UTILITY_HPP
 

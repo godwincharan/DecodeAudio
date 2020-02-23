@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 
-set(This DecodeWave)
+set(This DecodeAudio)
 
 project(${This} C CXX)
 
@@ -11,5 +11,5 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 enable_testing()
 
 add_subdirectory(ThirdParty)
-add_subdirectory(DecodeWave)
+add_subdirectory(DecodeAudio)
 add_subdirectory(test)

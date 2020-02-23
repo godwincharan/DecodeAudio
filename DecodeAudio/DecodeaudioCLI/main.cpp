@@ -1,4 +1,4 @@
-#include <DecodeWave.hpp>
+#include <DecodeAudio.hpp>
 #include <Decoder/StringDecoder.hpp>
 #include <string>
 #include <iostream>
@@ -81,39 +81,39 @@ int main(int argc, char* argv[])
         }
     }
 
-    using namespace decode_wave;
-    std::shared_ptr<DecodeWave<StringDecoder>> decode_wave{std::make_shared<DecodeWave<StringDecoder>>()};
+    using namespace decode_audio;
+    std::shared_ptr<DecodeAudio<StringDecoder>> decode_audio{std::make_shared<DecodeAudio<StringDecoder>>()};
     if ( is_threshold_provided)
     {
-        decode_wave->SetErrorCorrection(threshold);
+        decode_audio->SetErrorCorrection(threshold);
     }
-    auto return_value = decode_wave->OpenFile(file_path);
+    auto return_value = decode_audio->OpenFile(file_path);
     if ( return_value)
     {
         std::cout << "==========================Audio file infromation.==========================" <<std::endl;
-        decode_wave->DumpAudioInfo();
+        decode_audio->DumpAudioInfo();
         if ( is_channel_provided)
         {
-            if (decode_wave->GetReader()->HasChannel(channel))
+            if (decode_audio->GetReader()->HasChannel(channel))
             {
                 std::cout << "==================================Message==================================" <<std::endl;
-                std::string result = decode_wave->Decode(channel);
+                std::string result = decode_audio->Decode(channel);
                 std::cout << result <<std::endl;
             }
             else
             {
                 std::cerr << "==================================Error==================================" <<std::endl;
-                std::cerr << "Channel " << channel << " is not present in the audio file. Possible range is [" << 0 << " - " << decode_wave->GetReader()->Channels() - 1 << "]" << std::endl;
+                std::cerr << "Channel " << channel << " is not present in the audio file. Possible range is [" << 0 << " - " << decode_audio->GetReader()->Channels() - 1 << "]" << std::endl;
             }
         }
         else
         {
-            for(uint16_t channel; channel  < decode_wave->GetReader()->Channels();channel++)
+            for(uint16_t channel; channel  < decode_audio->GetReader()->Channels();channel++)
             {
                 std::cout << "===========================Message in channel "<< channel << "============================" <<std::endl;
-                std::string result = decode_wave->Decode(channel);
+                std::string result = decode_audio->Decode(channel);
                 std::cout << result <<std::endl;
-                decode_wave->GetReader()->SeekZero();
+                decode_audio->GetReader()->SeekZero();
             }
         }
     }

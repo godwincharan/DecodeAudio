@@ -3,7 +3,7 @@
 
 #include "IReader.hpp"
 
-namespace decode_wave
+namespace decode_audio
 {
 class ReaderFactory final
 {
@@ -15,6 +15,6 @@ public:
     
     IReader::Ptr GetReader(const std::string& extension);
 };
-} // decode_wave
+} // decode_audio
 #endif //READER_FACTORY_HPP
 

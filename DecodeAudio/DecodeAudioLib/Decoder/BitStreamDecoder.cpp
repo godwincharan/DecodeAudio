@@ -1,6 +1,6 @@
 #include "BitStreamDecoder.hpp"
 
-namespace decode_wave
+namespace decode_audio
 {
 std::string BitStreamDecoder::Decode(const int16_t* sample_data, const int16_t& channels, const int64_t& overall_samples, const int8_t& channel) const noexcept
 {
@@ -42,4 +42,4 @@ std::string BitStreamDecoder::Decode(const int16_t* sample_data, const int16_t& 
     result += bit_message;
     return result;
 }
-} // decode_wave
+} // decode_audio

@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace decode_wave
+namespace decode_audio
 {
     constexpr uint64_t ONE_MICRO_SEC = 1000000;
     constexpr uint16_t SAMPLE_ERROR_CORRECTION = 6;
@@ -35,5 +35,5 @@ public:
     void SetErrorCorrection(const uint16_t& error_correction) noexcept;
     virtual std::string Decode(const int16_t* sample_data, const int16_t& channels, const int64_t& overall_samples, const int8_t& channel) const noexcept = 0;
 };
-} // decode_wave
+} // decode_audio
 #endif //DECODER_HPP

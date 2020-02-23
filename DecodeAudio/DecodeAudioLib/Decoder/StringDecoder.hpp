@@ -4,7 +4,7 @@
 #include "Decoder.hpp"
 #include <deque>
 
-namespace decode_wave
+namespace decode_audio
 {
     constexpr uint8_t START_ID_ONE_VALUE = 0x42;
     constexpr uint8_t START_ID_TWO_VALUE = 0x03;
@@ -42,5 +42,5 @@ public:
 private:
     uint16_t Process(std::deque<bool>& bit_values)const;
 };
-} // decode_wave
+} // decode_audio
 #endif //STRING_DECODER_HPP

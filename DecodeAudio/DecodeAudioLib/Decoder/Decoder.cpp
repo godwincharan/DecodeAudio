@@ -2,7 +2,7 @@
 #include "../Utility.hpp"
 #include <cmath>
 
-namespace decode_wave
+namespace decode_audio
 {
 bool Decoder::IsZeroBitReceived(const int64_t& value)const
 {
@@ -30,4 +30,4 @@ void Decoder::SetErrorCorrection(const uint16_t& error_correction) noexcept
 {
     error_correction_ = error_correction;
 }
-} // decode_wave
+} // decode_audio

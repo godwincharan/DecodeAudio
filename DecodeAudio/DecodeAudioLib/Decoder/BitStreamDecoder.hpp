@@ -3,7 +3,7 @@
 
 #include "Decoder.hpp"
 
-namespace decode_wave
+namespace decode_audio
 {
 class BitStreamDecoder final : public Decoder
 {
@@ -17,5 +17,5 @@ public:
 
     std::string Decode(const int16_t* sample_data, const int16_t& channels, const int64_t& overall_samples, const int8_t& channel) const noexcept override;
 };
-} // decode_wave
+} // decode_audio
 #endif //BIT_STREAM_DECODER_HPP
